@@ -1,18 +1,18 @@
 # Internal Tools API
 
 ## Technologies
-- Langage: [votre_choix]
-- Framework: [votre_choix] 
-- Base de données: MySQL/PostgreSQL (selon choix)
+- Langage: TypeScript
+- Framework: Fastify
+- Base de données: PostgreSQL
 - Port API: [votre_port] (configurable)
 
 ## Quick Start
 
-1. `docker-compose --profile mysql up -d` # ou postgres
+1. `docker-compose --profile postgres up -d` 
 
-2. [commandes_installation_dependances]
-3. [commande_demarrage_serveur]
-4. API disponible sur http://localhost:[port]
+2. `npm install`
+3. `npm start`
+4. API disponible sur http://localhost:3000
 5. Documentation: http://localhost:[port]/[chemin_docs]
 
 ## Configuration
