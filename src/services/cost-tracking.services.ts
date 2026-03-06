@@ -1,5 +1,5 @@
 import {CostTracking} from "../models/cost-tracking.models";
-import {findAllCostTrack} from "../repositories/cost-tracking.repo";
+import {findAllCostTrack, findToolTrack} from "../repositories/cost-tracking.repo";
 
 export async function listCostTracking(filters?: {
     tool_id?: number,
@@ -11,7 +11,11 @@ export async function listCostTracking(filters?: {
     limit?: number
 } | undefined): Promise<CostTracking[] | null> {
 
-    console.log("services", filters)
     if (filters) return findAllCostTrack(filters)
     return findAllCostTrack()
+}
+
+
+export async function getCostTracking(id: number): Promise<CostTracking | null> {
+    return findToolTrack(id)
 }

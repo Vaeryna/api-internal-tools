@@ -61,3 +61,12 @@ export async function findAllCostTrack(filters?: {
     return queryMany(sql, values);
 
 }
+
+
+export async function findToolTrack(id: number): Promise<CostTracking[] | null> {
+    return queryMany<CostTracking>(`SELECT *
+                                    FROM cost_tracking
+                                    WHERE tool_id = $1`,
+        [id],
+    )
+}

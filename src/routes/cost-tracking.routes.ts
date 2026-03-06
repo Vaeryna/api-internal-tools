@@ -1,5 +1,5 @@
 import {FastifyInstance} from "fastify";
-import {listCostTracking} from "../services/cost-tracking.services";
+import {getCostTracking, listCostTracking} from "../services/cost-tracking.services";
 
 export default async function costTrackingRoutes(app: FastifyInstance) {
 
@@ -26,4 +26,16 @@ export default async function costTrackingRoutes(app: FastifyInstance) {
 
         return reply.send({data: costTracking})
     })
+
+
+// Récupérer les métriques de l'outil via son ID
+    app.get("/:toolId", async (request, reply) => {
+        const toolId = (request.params as { toolId: number }).toolId
+         const costTracking = await getCostTracking(toolId);
+
+        if (!costTracking) return reply.code(404).send({message: "Cost tracking not found for this tool ID"})
+
+        return {data: costTracking}
+    })
+
 }
