@@ -1,48 +1,63 @@
-import {queryOne} from "../db/connection";
+import {queryMany} from "../db/connection";
 import {CostTracking} from "../models/cost-tracking.models";
 
 export async function findAllCostTrack(filters?: {
-    tool_id?: number,
+    tool?: string,
     month_year?: number,
     total_monthly_cost?: number,
     active_users_count?: number,
+    min_users?: number,
+    max_users?: number
     sort?: string;
-}): Promise<CostTracking | null> {
+    limit?: number
+}): Promise<CostTracking[]> {
 
     const conditions: string[] = []
     const values: unknown[] = []
 
     let sql = `SELECT *
-               FROM tools`
+               FROM cost_tracking`
 
 
-    if (filters?.tool_id) {
-        values.push(filters.tool_id)
-        conditions.push(`category_id=(
-        SELECT id FROM categories WHERE name=$${values.length})`)
+    if (filters?.tool) {
+        values.push(filters.tool)
+        conditions.push(`tool_id=(
+        SELECT id FROM tools WHERE name ILIKE $${values.length})`)
     }
 
     if (filters?.month_year) {
         values.push(filters.month_year)
-        conditions.push(`status= $${values.length}`)
+        conditions.push(`month_year= $${values.length}`)
     }
     if (filters?.total_monthly_cost) {
         values.push(filters.total_monthly_cost)
-        conditions.push(`status= $${values.length}`)
-    }
-    if (filters?.active_users_count) {
-        values.push(filters.active_users_count)
-        conditions.push(`status= $${values.length}`)
+        conditions.push(`total_monthly_cost= $${values.length}`)
+
     }
 
     let sort;
     if (filters?.sort) {
         sort = filters.sort
-        if (filters.sort === "min_cost") sort = "monthly_cost ASC"
-        if (filters.sort === "max_cost") sort = "monthly_cost DESC"
+        if (filters.sort === "min_cost") sort = "total_monthly_cost ASC"
+        if (filters.sort === "max_cost") sort = "total_monthly_cost DESC"
+    }
+    if (filters?.min_users) {
+        values.push(filters.min_users)
+        conditions.push(`active_users_count>=$${values.length}`)
     }
 
-    return queryOne<CostTracking>(`SELECT *
-                                   FROM cost_tracking`, []
-    )
+    if (filters?.max_users) {
+        values.push(filters.max_users)
+        conditions.push(`active_users_count<= $${values.length}`)
+    }
+
+    if (conditions.length > 0) {
+        sql += ` WHERE ` + conditions.join(" AND ")
+    }
+
+    if (filters?.sort) sql += ` ORDER BY ` + sort
+    if (filters?.limit) sql += ` LIMIT ` + filters.limit
+
+    return queryMany(sql, values);
+
 }

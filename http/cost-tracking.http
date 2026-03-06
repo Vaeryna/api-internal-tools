@@ -1,3 +1,7 @@
 ### Requête GET - Tous les outils et leurs details
 GET http://127.0.0.1:3000/cost-tracking
 Content-Type: application/json
+
+### Requête GET - Les 10 premiers outils dont le minimum d'utilisateur est 3 et trié par le prix mensuel, plus petit au plus grand
+GET http://127.0.0.1:3000/cost-tracking?min_users=3&limit=10&sort=min_cost
+Content-Type: application/json

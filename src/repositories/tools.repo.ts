@@ -35,7 +35,7 @@ export async function findAllTools(filters?: {
 
     if (filters?.max_cost) {
         values.push(filters.max_cost)
-        conditions.push(`max_cost= $${values.length}`)
+        conditions.push(`monthly_cost<= $${values.length}`)
     }
 
     let sort;

@@ -5,10 +5,13 @@ export async function listCostTracking(filters?: {
     tool_id?: number,
     month_year?: number,
     total_monthly_cost?: number,
-    active_users_count?: number,
+    min_users?: number,
+    max_users?: number,
     sort?: string;
-} | undefined): Promise<CostTracking | null> {
+    limit?: number
+} | undefined): Promise<CostTracking[] | null> {
 
+    console.log("services", filters)
     if (filters) return findAllCostTrack(filters)
     return findAllCostTrack()
 }
