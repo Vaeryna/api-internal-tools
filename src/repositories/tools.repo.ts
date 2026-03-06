@@ -45,9 +45,10 @@ export async function updateOneTool(id: number, tool: UpdateTool): Promise<Tool 
                                        active_users_count= COALESCE($8, active_users_count),
                                        owner_department= COALESCE($9, owner_department),
                                        status= COALESCE($10, status),
-                                       update_at= CURRENT_TIMESTAMP
+                                       updated_at= CURRENT_TIMESTAMP
                                    WHERE id = $1 RETURNING *`,
         [
+            id,
             tool.name ?? null,
             tool.description ?? null,
             tool.vendor ?? null,

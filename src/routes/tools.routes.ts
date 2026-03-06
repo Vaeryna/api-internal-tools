@@ -5,8 +5,8 @@
 // GET /api/tools/:id
 
 import {FastifyInstance} from "fastify";
-import {listTools} from "../services/tool.services";
-import {createOneTool, findOneTool} from "../repositories/tools.repo";
+import {createTool, getTool, listTools, updateTool} from "../services/tool.services";
+import {CreateTool, UpdateTool} from "../models/tool.models";
 
 export default async function toolsRoutes(app: FastifyInstance) {
     app.get("/", async () => {
@@ -16,24 +16,36 @@ export default async function toolsRoutes(app: FastifyInstance) {
 
     app.get("/:id", async (request, reply) => {
         const id = (request.params as { id: number }).id
-        const tool = await findOneTool(Number(id));
+        const tool = await getTool(id);
 
         if (!tool) return reply.code(404).send({message: "Tool not found"})
 
         return {data: tool}
     })
 
-    app.post("/", async (request, reply) => {
-        const body = (request.body)
+    app.post<{ Body: CreateTool }>("/", async (request, reply) => {
 
-        console.log(body, typeof body)
-        const tool = await createOneTool(Object(body))
+        const tool = await createTool(request.body)
 
         return reply.code(201).send({
             message: "Tool created",
             data: tool
         })
     })
+
+
+    app.put<{ Body: UpdateTool }>("/:id", async (request, reply) => {
+        const id = (request.params as { id: number }).id
+
+        const tool = await updateTool(id, request.body)
+
+        return reply.code(201).send({
+            message: `Tool ${id} is modified`,
+            data: tool
+        })
+
+    })
 }
+
 
 //avec le prefix "/tools" , le "/" devient GET /tools

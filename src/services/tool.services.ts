@@ -1,5 +1,5 @@
-import {findAllTools, findOneTool, updateOneTool} from "../repositories/tools.repo";
-import {Tool, UpdateTool} from "../models/tool.models";
+import {createOneTool, findAllTools, findOneTool, updateOneTool} from "../repositories/tools.repo";
+import {CreateTool, Tool, UpdateTool} from "../models/tool.models";
 
 
 export async function listTools(): Promise<Tool[]> {
@@ -8,8 +8,11 @@ export async function listTools(): Promise<Tool[]> {
 }
 
 export async function getTool(id: number): Promise<Tool | null> {
-    console.log("id get tool", id)
     return findOneTool(id)
+}
+
+export async function createTool(newTool: CreateTool): Promise<Tool | null> {
+    return createOneTool(newTool)
 }
 
 export async function updateTool(id: number, update: UpdateTool): Promise<Tool | null> {
