@@ -1,19 +1,31 @@
-// GET / api / tools
-// GET / api / tools ? department = Engineering & status = active
-// GET / api / tools ? min_cost = 10 & max_cost = 50 & category = Development
-
-// GET /api/tools/:id
-
 import {FastifyInstance} from "fastify";
 import {createTool, getTool, listTools, updateTool} from "../services/tool.services";
 import {CreateTool, UpdateTool} from "../models/tool.models";
 
 export default async function toolsRoutes(app: FastifyInstance) {
-    app.get("/", async () => {
-        const tools = await listTools();
-        return {data: tools}
+
+    // Récupérer tous les outils avec filtres facultatifs
+    app.get("/", async (request, reply) => {
+        const filters = (request.query as {
+            status?: string
+            category?: string
+            limit?: number
+            min_cost?: number
+            max_cost?: number
+            sort?: string;
+        })
+        const tools = await listTools({
+            status: filters.status,
+            category: filters.category,
+            limit: filters.limit,
+            min_cost: filters.min_cost,
+            max_cost: filters.max_cost,
+            sort: filters.sort,
+        });
+        return reply.send({data: tools})
     })
 
+    // Récupérer l'outil via son ID
     app.get("/:id", async (request, reply) => {
         const id = (request.params as { id: number }).id
         const tool = await getTool(id);
@@ -23,6 +35,7 @@ export default async function toolsRoutes(app: FastifyInstance) {
         return {data: tool}
     })
 
+    // Créer un outil
     app.post<{ Body: CreateTool }>("/", async (request, reply) => {
 
         const tool = await createTool(request.body)
@@ -33,7 +46,7 @@ export default async function toolsRoutes(app: FastifyInstance) {
         })
     })
 
-
+    // Mettre à jour l'attribut d'un outil via son ID
     app.put<{ Body: UpdateTool }>("/:id", async (request, reply) => {
         const id = (request.params as { id: number }).id
 
@@ -48,4 +61,3 @@ export default async function toolsRoutes(app: FastifyInstance) {
 }
 
 
-//avec le prefix "/tools" , le "/" devient GET /tools

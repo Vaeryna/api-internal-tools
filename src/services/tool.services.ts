@@ -2,8 +2,9 @@ import {createOneTool, findAllTools, findOneTool, updateOneTool} from "../reposi
 import {CreateTool, Tool, UpdateTool} from "../models/tool.models";
 
 
-export async function listTools(): Promise<Tool[]> {
+export async function listTools(filters?: { status?: string; category?: string; limit?: number; min_cost?: number; max_cost?: number; sort?: string; } | undefined): Promise<Tool[]> {
     //plus tard : validation de query, defaults, mapping etc
+    if(filters) return findAllTools(filters)
     return findAllTools()
 }
 

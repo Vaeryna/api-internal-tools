@@ -1,14 +1,65 @@
 import {queryMany, queryOne} from "../db/connection";
 import {CreateTool, Tool, UpdateTool} from "../models/tool.models";
 
+//récupérer tous les outils avec filtres facultatifs
+export async function findAllTools(filters?: {
+    status?: string,
+    category?: string,
+    limit?: number,
+    min_cost?: number,
+    max_cost?: number,
+    sort?: string
+}): Promise<Tool[]> {
 
-export async function findAllTools(): Promise<Tool[]> {
-    return queryMany(`SELECT id, name
-                      FROM tools`, [])
+    const conditions: string[] = []
+    const values: unknown[] = []
+
+    let sql = `SELECT *
+               FROM tools`
+
+    if (filters?.status) {
+        values.push(filters.status)
+        conditions.push(`status= $${values.length}`)
+    }
+
+    if (filters?.category) {
+        values.push(filters.category)
+        conditions.push(`category_id=(
+        SELECT id FROM categories WHERE name=$${values.length})`)
+    }
+
+    if (filters?.min_cost) {
+        values.push(filters.min_cost)
+        conditions.push(`monthly_cost>=$${values.length}`)
+    }
+
+    if (filters?.max_cost) {
+        values.push(filters.max_cost)
+        conditions.push(`max_cost= $${values.length}`)
+    }
+
+    let sort;
+    if (filters?.sort) {
+        sort = filters.sort
+        if (filters.sort === "min_cost") sort = "monthly_cost ASC"
+        if (filters.sort === "max_cost") sort = "monthly_cost DESC"
+    }
+
+
+    if (conditions.length > 0) {
+        sql += ` WHERE ` + conditions.join(" AND ")
+    }
+
+    if (filters?.sort) sql += ` ORDER BY ` + sort
+    if (filters?.limit) sql += ` LIMIT ` + filters.limit
+
+    console.log("sql", sql)
+    console.log("cvalues", values)
+
+    return queryMany(sql, values)
 }
 
 export async function findOneTool(id: number): Promise<Tool | null> {
-    console.log("findOneTOol", id)
     return queryOne<Tool>(`SELECT *
                            FROM tools
                            WHERE id = $1`,
