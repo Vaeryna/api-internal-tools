@@ -1,7 +1,6 @@
 import swaggerUI from "@fastify/swagger-ui";
 import swagger from "@fastify/swagger";
-import Fastify, {FastifyInstance} from "fastify";
-import {TypeBoxTypeProvider} from "@fastify/type-provider-typebox";
+import {FastifyInstance} from "fastify";
 
 
 export async function swaggerPlugin(app: FastifyInstance) {
