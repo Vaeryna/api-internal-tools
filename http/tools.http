@@ -1,11 +1,27 @@
-###
+### Requête GET - Tous les outils et leurs details
+GET http://127.0.0.1:3000/tools
+Content-Type: application/json
+
+### Requête GET - Les 10 premiers outils avec la catégorie "Development"
+GET http://127.0.0.1:3000/tools?category=Development&limit=10
+Content-Type: application/json
+
+### Requête GET - Les 10 premiers outils avec la catégorie "Development" et trié par le prix mensuel, plus petit au plus grand
+GET http://127.0.0.1:3000/tools?category=Development&limit=10&sort=min_cost
+Content-Type: application/json
+
+### Requête GET -  Les 10 premiers outils avec la catégorie "Development", dont le coût mensuel est supérieur ou égal à 10 et trié du plus grand au plus petit
+GET http://127.0.0.1:3000/tools?category=Development&min_cost=10&sort=max_cost
+Content-Type: application/json
+
+### Création d'un outil nommé "OutilTest2"
 POST http://127.0.0.1:3000/tools/
 Content-Type: application/json
 
 {
   "name": "OutilTest2",
   "description": "test",
-  "vendor": "pouet",
+  "vendor": "Vendeur Test",
   "website_url": "www.pouetpouet.com",
   "category_id": 4,
   "monthly_cost": 15,
@@ -14,8 +30,8 @@ Content-Type: application/json
   "status": "active"
 }
 
-###
 
+### Modification du vendeur de l'outil à l'ID 28
 PUT http://127.0.0.1:3000/tools/28
 Content-Type: application/json
 
