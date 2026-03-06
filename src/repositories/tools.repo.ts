@@ -45,7 +45,6 @@ export async function findAllTools(filters?: {
         if (filters.sort === "max_cost") sort = "monthly_cost DESC"
     }
 
-
     if (conditions.length > 0) {
         sql += ` WHERE ` + conditions.join(" AND ")
     }
@@ -53,8 +52,6 @@ export async function findAllTools(filters?: {
     if (filters?.sort) sql += ` ORDER BY ` + sort
     if (filters?.limit) sql += ` LIMIT ` + filters.limit
 
-    console.log("sql", sql)
-    console.log("cvalues", values)
 
     return queryMany(sql, values)
 }
