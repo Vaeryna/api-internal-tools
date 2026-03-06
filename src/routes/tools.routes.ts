@@ -7,7 +7,6 @@
 import {FastifyInstance} from "fastify";
 import {listTools} from "../services/tool.services";
 import {findOneTool} from "../repositories/tools.repo";
-import * as repl from "node:repl";
 
 export default async function toolsRoutes(app: FastifyInstance) {
     app.get("/", async () => {
