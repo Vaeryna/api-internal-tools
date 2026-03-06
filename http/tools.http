@@ -1,0 +1,16 @@
+###
+POST http://127.0.0.1:3000/tools/new
+Content-Type: application/json
+
+{
+  "name": "OutilTest2",
+  "description": "test",
+  "vendor": "pouet",
+  "category_id": 4,
+  "monthly_cost": 15,
+  "active_users_count": 0,
+  "owner_department": "Sales",
+  "status": "active"
+}
+
+###

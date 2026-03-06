@@ -6,7 +6,7 @@
 
 import {FastifyInstance} from "fastify";
 import {listTools} from "../services/tool.services";
-import {findOneTool} from "../repositories/tools.repo";
+import {createOneTool, findOneTool} from "../repositories/tools.repo";
 
 export default async function toolsRoutes(app: FastifyInstance) {
     app.get("/", async () => {
@@ -21,6 +21,18 @@ export default async function toolsRoutes(app: FastifyInstance) {
         if (!tool) return reply.code(404).send({message: "Tool not found"})
 
         return {data: tool}
+    })
+
+    app.post("/", async (request, reply) => {
+        const body = (request.body)
+
+        console.log(body, typeof body)
+        const tool = await createOneTool(Object(body))
+
+        return reply.code(201).send({
+            message: "Tool created",
+            data: tool
+        })
     })
 }
 
