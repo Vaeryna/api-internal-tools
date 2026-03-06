@@ -1,5 +1,5 @@
 ###
-POST http://127.0.0.1:3000/tools/new
+POST http://127.0.0.1:3000/tools/
 Content-Type: application/json
 
 {
