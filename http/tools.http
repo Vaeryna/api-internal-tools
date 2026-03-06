@@ -6,6 +6,7 @@ Content-Type: application/json
   "name": "OutilTest2",
   "description": "test",
   "vendor": "pouet",
+  "website_url": "www.pouetpouet.com",
   "category_id": 4,
   "monthly_cost": 15,
   "active_users_count": 0,
@@ -14,3 +15,10 @@ Content-Type: application/json
 }
 
 ###
+
+PUT http://127.0.0.1:3000/tools/28
+Content-Type: application/json
+
+{
+  "vendor": "Second Vendeur"
+}
