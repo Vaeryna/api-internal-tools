@@ -1,10 +1,10 @@
 import swaggerUI from "@fastify/swagger-ui";
 import swagger from "@fastify/swagger";
-import Fastify from "fastify";
+import Fastify, {FastifyInstance} from "fastify";
+import {TypeBoxTypeProvider} from "@fastify/type-provider-typebox";
 
-const app = Fastify({logger: true});
 
-export async function swaggerPlugin() {
+export async function swaggerPlugin(app: FastifyInstance) {
     await app.register(swagger, {
         openapi: {
             openapi: "3.0.0",
@@ -31,6 +31,6 @@ export async function swaggerPlugin() {
     })
 
     app.get("/api/docs/json", async () => {
-        return app.swagger
+        return app.swagger()
     })
 }
