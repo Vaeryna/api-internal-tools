@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsx src/server.ts ",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "all": "sudo docker-compose --profile postgres up -d && sh start-postgres.sh && sh back_env/scripts/test-connections.sh && npm start"
   },
   "type": "module",
   "repository": {
