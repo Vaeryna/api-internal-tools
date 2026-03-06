@@ -5,7 +5,7 @@
 - Langage: TypeScript
 - Framework: Fastify
 - Base de données: PostgreSQL
-- Port API: `3000` (configurable)
+- Port API: `3000` (configurable dans le fichier `.env` à créer à la racine)
 
 ## Quick Start
 
@@ -14,20 +14,21 @@
 3. Depuis back_env/scripts `sh start-postgres.sh` pour lancer le serveur postgreSQL
 4. `npm start`
 
----
-Ou plus simplement :
+**Ou plus simplement** :
 
 1. `npm install` pour installer toutes les dépendances
 2. `npm run all` pour démarrer l'image postgres ET démarrer le serveur de base de données ET lancer l'application
 
----
+
 API disponible sur http://localhost:3000
-Documentation: http://localhost:[port]/[chemin_docs]
+
+Documentation: http://localhost:300/api/docs
 
 ## Configuration
 
-- Variables d'environnement: voir .env.example
-- Configuration DB: [instructions_connexion]
+- Configuration DB: voir `readme.md`de back_env
+- Créer un fichier `.env` à la racine avec les variables `DATABASE_URL` et `PORT` qui seront utilisées par le
+  serveur
 
 ## Tests
 
@@ -35,14 +36,24 @@ Documentation: http://localhost:[port]/[chemin_docs]
 
 ## Architecture
 
-- [Justification_choix_tech]
-- Choix du langage TypeScript pour le développement de l'API : dérivé de JavaScript, c'est un langage populaire et
-  globalement connue. La nuance vient du typage explicite et de quelques outils disponibles en plus par rapport à
+### TypeScript
+
+- dérivé de JavaScript, langage populaire et
+  globalement connue.
+- Typage explicite pour limiter les erreurs de typage
+- et de quelques outils disponibles en plus par rapport à
   JavaScript.
-- Choix du framework Fastify : Framework NodeJS rapide, leger et flexible. L'approche JSON de Fastify s'aligne également
-  très bien avec le langage TypeScript et permet la validatioon de schémas de données sans librairie externe.
-- [Structure_projet_expliquée]
-- Découpage en MVC pour plus de lisibilité :
+
+### Fastify
+
+- Framework NodeJS rapide, léger et flexible.
+- Approche JSON de Fastify s'aligne très bien avec le langage TypeScript
+    - Permet la validation de schémas de données sans librairie externe.
+- Plus complet que ExpressJS
+
+### Structure_projet_expliquée
+
+- Découpage en MVC pour plus de lisibilité:
     - le dossier `repositories` abrite les query pour les requêtes SQL
     - le dossier `models` contient les modèles des donées telles qu'elles existent dans la base de données
     - le dossier `routes` regroupe les routes des appels API suivant le type de données recherché ((liste des
