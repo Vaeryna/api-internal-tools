@@ -1,0 +1,3 @@
+### Requête GET - Tous les outils et leurs details
+GET http://127.0.0.1:3000/cost-tracking
+Content-Type: application/json

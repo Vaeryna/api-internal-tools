@@ -1,13 +1,13 @@
 import Fastify from "fastify"
 import toolsRoutes from "./routes/tools.routes";
+import costTrackingRoutes from "./routes/cost-tracking.routes";
 
 
 export function buildApp() {
     const app = Fastify({logger: true});
 
-    // app.register(usersRoutes, {prefix: "/users"})  --> si path /users/truc/much alors appelle le fichier userRoutes
-
     app.register(toolsRoutes, {prefix: "/tools"})
+    app.register(costTrackingRoutes, {prefix: "/cost-tracking"})
 
 
     return app;
